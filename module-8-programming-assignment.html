@@ -1,0 +1,157 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>CMPS 260: Module 8 Programming Assignment</title>
+<style>* { font-family: monospace; }</style>
+<script>
+
+// NOTE: You must implement the data structures using the no prototype approach.
+//       This is what the book uses, so you can copy it.
+//       See also: https://it.pointpark.edu/tutorials/no-prototype-vs-prototype/
+
+// NOTE: Please review the following links regularly:
+//       https://it.pointpark.edu/tutorials/arrays-vs-objects/
+//       https://it.pointpark.edu/tutorials/no-prototype-vs-prototype/
+//       https://it.pointpark.edu/tutorials/implementation-vs-interface/
+
+
+
+//----------------//
+// Big O notation //
+//----------------//
+console.log("Big O notation");
+
+// 1. Analyze the complexity of the isPalindrome function below. Make a
+//    distinction between best, worst, and average case complexity.
+
+function isPalindrome(str) {
+  for (var i = 0; i < str.length/2; i++) {
+    if (str[i] !== str[str.length-i-1]) {
+      return false;
+    }
+  }
+  return true;
+}
+
+//Best Case: The best case occurs when the input string is not a palindrome, 
+//and the first pair of characters don't match. In this case, the function will 
+//return false after checking just one pair of characters. Therefore, the best-case time complexity is O(1).
+
+//Worst Case: The worst case occurs when the input string is a palindrome, 
+//and the function has to iterate through half of the string to confirm it. 
+//In the worst case, the time complexity is O(n/2), which simplifies to O(n), where n is the length of the input string.
+
+//Average Case: The average case time complexity is also O(n/2) or O(n), 
+//as on average, you'll need to check half of the characters in the string.
+
+// 2. Write a program that finds the minimum element in a stack in O(1) time
+//    complexity. Note that earlier solutions searched through the elements on
+//    the stack but that leads to an O(n) solution.
+//    NOTE: this question is sometimes asked on interviews.
+
+class MinStack {
+  constructor() {
+    this.stack = [];
+    this.minStack = [];
+  }
+
+  push(value) {
+    this.stack.push(value);
+
+    // Update the minimum stack
+    if (this.minStack.length === 0 || value <= this.minStack[this.minStack.length - 1]) {
+      this.minStack.push(value);
+    }
+  }
+
+  pop() {
+    if (this.stack.length === 0) {
+      return null; // Stack is empty
+    }
+
+    // If the popped element is the minimum, update the minimum stack
+    if (this.stack[this.stack.length - 1] === this.minStack[this.minStack.length - 1]) {
+      this.minStack.pop();
+    }
+
+    return this.stack.pop();
+  }
+
+  getMin() {
+    if (this.minStack.length === 0) {
+      return null; // Stack is empty
+    }
+
+    return this.minStack[this.minStack.length - 1];
+  }
+}
+
+// Example usage:
+const minStack = new MinStack();
+minStack.push(3);
+minStack.push(5);
+minStack.push(2);
+minStack.push(1);
+
+console.log(minStack.getMin()); // Output: 1
+minStack.pop();
+console.log(minStack.getMin()); // Output: 2
+
+//----------------------------//
+// Having fun with algorithms //
+//----------------------------//
+console.log("Having fun with algorithms");
+
+// 1. Solve Project Euler problem 1 (https://projecteuler.net/problem=1).
+
+function findSumOfMultiples(limit) {
+  let sum = 0;
+
+  for (let i = 1; i < limit; i++) {
+    if (i % 3 === 0 || i % 5 === 0) {
+      sum += i;
+    }
+  }
+
+  return sum;
+}
+
+const limit = 1000;
+const result = findSumOfMultiples(limit);
+
+console.log("The sum of multiples of 3 or 5 below", limit, "is:", result);
+
+
+// 2. Solve Project Euler problem 2 (https://projecteuler.net/problem=2).
+
+function sumEvenFibonacci(limit2) {
+  let sum = 0;
+  let prev = 1;
+  let current = 2;
+
+  while (current <= limit2) {
+    if (current % 2 === 0) {
+      sum += current;
+    }
+
+    const next = prev + current;
+    prev = current;
+    current = next;
+  }
+
+  return sum;
+}
+
+const limit2 = 4000000;
+const result2 = sumEvenFibonacci(limit2);
+
+console.log("The sum of even-valued terms in the Fibonacci sequence below", limit2, "is:", result2);
+
+
+</script>
+</head>
+<body>
+  See console!
+</body>
+</html>
